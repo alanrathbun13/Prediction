@@ -181,8 +181,8 @@ $(document).ready(function () {
 <pre><code>## [1] 19622    53</code></pre>
 <p><br> * Training dataframe has been reduced to 53 variables (52 predictors and 1 outcome) for observations with complete data <br> <br></p>
 </div>
-<div id="split-training-data-frame-into-training-set-and-validation-set" class="section level4">
-<h4>Split training data frame into training set and validation set</h4>
+<div id="split-training-dataframe-into-training-set-and-validation-set" class="section level4">
+<h4>Split training dataframe into training set and validation set</h4>
 <p><br> * Original training dataframe has been subset into a training set with 15699 observations and a validation sample with 3147 observations <br> <br></p>
 </div>
 <div id="train-initial-prediction-function-using-classification-and-regression-trees-and-identify-potential-predictor-variables" class="section level4">
@@ -270,10 +270,10 @@ $(document).ready(function () {
 ## Detection Rate         0.2843   0.1935   0.1744   0.1638   0.1838
 ## Detection Prevalence   0.2843   0.1935   0.1744   0.1639   0.1838
 ## Balanced Accuracy      1.0000   1.0000   0.9998   1.0000   1.0000</code></pre>
-<p><br> * Accuracy of the final prediction model at classifying individuals within the training set 99.99%, which is almost perfect prediction <br> <br></p>
+<p><br> * Accuracy of the final prediction model at classifying individuals within the training set is 99.99%, which is almost perfect prediction <br> <br></p>
 </div>
 <div id="calculate-accuracy-of-prediction-function-on-validation-sample-and-assess-out-of-sample-error" class="section level4">
-<h4>Calculate accuracy of prediction function on Validation sample and assess out-of-sample error</h4>
+<h4>Calculate accuracy of prediction function on validation sample and assess out-of-sample error</h4>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##           Reference
@@ -305,10 +305,10 @@ $(document).ready(function () {
 ## Detection Rate         0.2838   0.1938   0.1706   0.1656   0.1862
 ## Detection Prevalence   0.2838   0.1938   0.1706   0.1656   0.1862
 ## Balanced Accuracy      1.0000   1.0000   1.0000   1.0000   1.0000</code></pre>
-<p><br> * The accuracy of the prediction function in the validation is 100% (perfect prediction). Out-of-sample classificaiton error is generally higher in validation samples, but in this case, the classification error is actually lower than within the training set. <br> <br></p>
+<p><br> * The accuracy of the prediction function in the validation sample is 100% (perfect prediction); slighty higher than the training set (99.9%). Out-of-sample classificaiton error is generally higher in validation samples, but in this case, the classification error is actually higher within the training set. <br> <br></p>
 </div>
-<div id="predict-outcomes-using-prediction-and-testing-dataframe" class="section level4">
-<h4>Predict outcomes using prediction and testing dataframe</h4>
+<div id="predict-outcomes-using-prediction-function-and-testing-dataframe" class="section level4">
+<h4>Predict outcomes using prediction function and testing dataframe</h4>
 <pre><code>##  [1] B A B A A E D B A A B C B A E E A B B B
 ## Levels: A B C D E</code></pre>
 <p><br> <br></p>

@@ -73,7 +73,7 @@ dim(df)
 <br>
 <br>
 
-#### Split training data frame into training set and validation set
+#### Split training dataframe into training set and validation set
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 set.seed(123)
 inTrain <- createDataPartition(df$classe,p = 0.8,list= F)
@@ -121,20 +121,20 @@ print(fit)
 confusionMatrix(df$classe, predict(fit, df))
 ```
 <br>
-* Accuracy of the final prediction model at classifying individuals within the training set 99.99%, which is almost perfect prediction
+* Accuracy of the final prediction model at classifying individuals within the training set is 99.99%, which is almost perfect prediction
 <br>
 <br>
 
-#### Calculate accuracy of prediction function on Validation sample and assess out-of-sample error
+#### Calculate accuracy of prediction function on validation sample and assess out-of-sample error
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 confusionMatrix(dfvalidate$classe, predict(fit, dfvalidate))
 ```
 <br>
-* The accuracy of the prediction function in the validation is 100% (perfect prediction). Out-of-sample classificaiton error is generally higher in validation samples, but in this case, the classification error is actually lower than within the training set. 
+* The accuracy of the prediction function in the validation sample is 100% (perfect prediction); slighty higher than the training set (99.9%). Out-of-sample classificaiton error is generally higher in validation samples, but in this case, the classification error is actually higher within the training set. 
 <br>
 <br>
 
-#### Predict outcomes using prediction and testing dataframe
+#### Predict outcomes using prediction function and testing dataframe
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 link <- "https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv"
 if(!file.exists("test.csv")) {download(link, dest="test.csv")} 
