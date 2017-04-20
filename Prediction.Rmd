@@ -1,0 +1,147 @@
+---
+title: "Prediction Assignment"
+author: "Alan M. Rathbun"
+date: "April 18, 2017"
+output: html_document
+---
+<br>
+<br>
+
+####Objective
+* The aim of this analysis was to develop a prediciton function to discriminate between how well individuals peform a specific physical activity.
+<br>
+<br>
+
+####Data Source 
+* Data for this analysis came from the publically available Weight Lifting Exercise (WLE) cohort (http://groupware.les.inf.puc-rio.br/har). The dataset was intended to define the quality of execution of human physical activity using an on-body sensing approach.
+<br>
+<br>
+
+####Analytic Sample
+* The sample for analysis comprised six young healthy participants who were required to do a physical performance task while wearing activity recognition monitors and under supervision of an experienced weight lifter. Participants were males between the ages of 20 to 28 years old and had little weighting lifting experience.
+<br>
+<br>
+
+####Outcome Variable
+* Study participants performed unilateral dumbbell bicep curls in five different ways in a single set of ten repetitions. Outcome levels included five different performance specifications: exactly according to specification (Class A), throwing elbows to the front (Class B), lifting the dumbbell only halfway (Class C), lowering the dumbbell only halfway (Class D), and throwing the hips to the front (Class E). 
+<br>
+<br>
+
+####Predictors
+* Variables used as potential predictors included all those unique data features obtained from activity recognition monitors that captured physical peformance information (location, acceleration, etc.).
+<br>
+<br>
+
+####Statistical Analysis
+* A data driven approach was used to create a predition function intended to correctly classify physical activity specifications from on-body sensor information. First, variables were initially screened using classification and regression trees (CART) to identify those features that contributed variance to the prediction model. Second, a bagged CART appproach with 10-fold cross validation was used to develop a final prediction using the screened variables. Accuracy of the prediction function was assessed using a confusion matrix comparing the observed outcomes to the predicted outcomes obtained from the final model.
+<br>
+<br>
+
+####Creating analysis folder
+if(!dir.exists("Prediction")) {dir.create("Prediction")}
+
+####Load dependencies
+* Downloader package
+* Caret package
+* Party package
+* Party kit package
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+setwd("Prediction")
+library(downloader); library(caret); library(party); library(partykit)
+```
+<br>
+<br>
+
+####Load in data frame
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+setwd("Prediction")
+link <- "https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv"
+if(!file.exists("df.csv")) {download(link, dest="df.csv")} 
+df <- read.csv(file = "df.csv", header = TRUE, sep = ",", fill = TRUE, stringsAsFactors = FALSE, na.strings = c("NA",""))
+dim(df)
+```
+<br>
+* Training dataframe includes 19,622 observations with 160 variables
+<br>
+<br>
+
+####Subset dataframe to columns without missing data and relavent features for prediction
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+setwd("Prediction")
+columns <- which(colSums(is.na(df))==0, arr.ind=TRUE)
+df <- df[, columns]
+df <- df[, 8:60]
+df$classe <- as.factor(df$classe)
+dim(df)
+```
+<br>
+* Training dataframe has been reduced to 53 variables (52 predictors and 1 outcome) for observations with complete data
+<br>
+<br>
+
+####Train initial prediction function using classification and regression trees and identify potential predictor variables 
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+setwd("Prediction")
+modfit <- train(classe ~ ., method="rpart", data=df)
+varImp(modfit)
+```
+<br>
+* Variables with variance contribution to initial prediction model include: pitch_forearm, roll_forearm, roll_belt, magnet_dumbbell_y, accel_belt_z, magnet_belt_y, yaw_belt, magnet_dumbbell_z, total_accel_belt, magnet_arm_x, accel_arm_x, roll_dumbbell, accel_dumbbell_y, roll_arm 
+<br>
+<br>
+
+####Visualize most important variables with shallow tree
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+setwd("Prediction")
+screening <- as.party(modfit$finalModel)
+print(plot(screening))
+```
+<br>
+<br>
+
+####Train prediction function using screened variables and bagged classification and regression trees with 10-fold cross-validation
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+setwd("Prediction")
+variables <- c("pitch_forearm", "roll_forearm", "roll_belt", "magnet_dumbbell_y", "accel_belt_z", "magnet_belt_y", "yaw_belt", "magnet_dumbbell_z", "total_accel_belt", "magnet_arm_x", "accel_arm_x", "roll_dumbbell", "accel_dumbbell_y", "roll_arm", "classe")
+df <- df[, variables]
+train_control <- trainControl(method="cv", number=10)
+fit <- train(classe ~ ., method="treebag", trControl=train_control, data=df)
+print(fit)
+```
+<br>
+<br>
+
+####Calcuate accuracy of prediction function on training dataframe
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+setwd("Prediction")
+confusionMatrix(df$classe, predict(fit, df))
+```
+<br>
+* Accuracy of the final prediction model at classifying individuals within the training set dataframe is greater than 99%
+<br>
+<br>
+
+####Predict outcomes using testing dataframe
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+setwd("Prediction")
+link <- "https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv"
+if(!file.exists("test.csv")) {download(link, dest="test.csv")} 
+df <- read.csv(file = "test.csv", header = TRUE, sep = ",", fill = TRUE, stringsAsFactors = FALSE, na.strings = c("NA",""))
+columns <- which(colSums(is.na(df))==0, arr.ind=TRUE)
+df <- df[, columns]
+df <- df[, 8:60]
+variables <- c("pitch_forearm", "roll_forearm", "roll_belt", "magnet_dumbbell_y", "accel_belt_z", "magnet_belt_y", "yaw_belt", "magnet_dumbbell_z", "total_accel_belt", "magnet_arm_x", "accel_arm_x", "roll_dumbbell", "accel_dumbbell_y", "roll_arm")
+df <- df[, variables]
+predict(fit, df)
+```
+<br>
+<br>
+
+####Validation and out-of-sample error
+* The prediction function developed in this analysis will be further validated using a test dataset consisting of 20 observations. Given the large disparty in the number observations between training and testing datasets, the out-of-sample classificaiton error is expected to be much greater than what is shown in this report. 
+<br>
+<br>
+
+####References
+* Velloso, E.; Bulling, A.; Gellersen, H.; Ugulino, W.; Fuks, H. Qualitative Activity Recognition of Weight Lifting Exercises. Proceedings of 4th International Conference in Cooperation with SIGCHI (Augmented Human '13) . Stuttgart, Germany: ACM SIGCHI, 2013.
+
