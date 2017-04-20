@@ -206,12 +206,12 @@ $(document).ready(function () {
 ## roll_dumbbell       18.67
 ## accel_dumbbell_y    15.60
 ## roll_arm            15.28
-## accel_forearm_z      0.00
-## gyros_forearm_z      0.00
-## magnet_arm_y         0.00
-## pitch_dumbbell       0.00
+## gyros_dumbbell_x     0.00
+## gyros_forearm_x      0.00
+## accel_arm_z          0.00
 ## gyros_belt_z         0.00
-## magnet_dumbbell_x    0.00</code></pre>
+## pitch_dumbbell       0.00
+## accel_dumbbell_x     0.00</code></pre>
 <p><br> * Variables with variance contribution to initial prediction model include: pitch_forearm, roll_forearm, roll_belt, magnet_dumbbell_y, accel_belt_z, magnet_belt_y, yaw_belt, magnet_dumbbell_z, total_accel_belt, magnet_arm_x, accel_arm_x, roll_dumbbell, accel_dumbbell_y, roll_arm <br> <br></p>
 </div>
 <div id="visualize-most-important-variables-with-shallow-tree" class="section level4">
@@ -230,11 +230,11 @@ $(document).ready(function () {
 ## 
 ## No pre-processing
 ## Resampling: Cross-Validated (10 fold) 
-## Summary of sample sizes: 17659, 17659, 17661, 17659, 17661, 17660, ... 
+## Summary of sample sizes: 17658, 17660, 17661, 17659, 17660, 17660, ... 
 ## Resampling results:
 ## 
 ##   Accuracy   Kappa    
-##   0.9825714  0.9779545
+##   0.9811944  0.9762134
 ## 
 ## </code></pre>
 <p><br> <br></p>
@@ -246,32 +246,32 @@ $(document).ready(function () {
 ##           Reference
 ## Prediction    A    B    C    D    E
 ##          A 5580    0    0    0    0
-##          B    1 3795    1    0    0
+##          B    0 3795    2    0    0
 ##          C    0    0 3422    0    0
-##          D    0    0    2 3214    0
+##          D    0    0    0 3216    0
 ##          E    0    0    0    0 3607
 ## 
 ## Overall Statistics
-##                                           
-##                Accuracy : 0.9998          
-##                  95% CI : (0.9995, 0.9999)
-##     No Information Rate : 0.2844          
-##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
-##                                           
-##                   Kappa : 0.9997          
-##  Mcnemar's Test P-Value : NA              
+##                                      
+##                Accuracy : 0.9999     
+##                  95% CI : (0.9996, 1)
+##     No Information Rate : 0.2844     
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16  
+##                                      
+##                   Kappa : 0.9999     
+##  Mcnemar's Test P-Value : NA         
 ## 
 ## Statistics by Class:
 ## 
 ##                      Class: A Class: B Class: C Class: D Class: E
-## Sensitivity            0.9998   1.0000   0.9991   1.0000   1.0000
-## Specificity            1.0000   0.9999   1.0000   0.9999   1.0000
-## Pos Pred Value         1.0000   0.9995   1.0000   0.9994   1.0000
-## Neg Pred Value         0.9999   1.0000   0.9998   1.0000   1.0000
-## Prevalence             0.2844   0.1934   0.1745   0.1638   0.1838
-## Detection Rate         0.2844   0.1934   0.1744   0.1638   0.1838
+## Sensitivity            1.0000   1.0000   0.9994   1.0000   1.0000
+## Specificity            1.0000   0.9999   1.0000   1.0000   1.0000
+## Pos Pred Value         1.0000   0.9995   1.0000   1.0000   1.0000
+## Neg Pred Value         1.0000   1.0000   0.9999   1.0000   1.0000
+## Prevalence             0.2844   0.1934   0.1745   0.1639   0.1838
+## Detection Rate         0.2844   0.1934   0.1744   0.1639   0.1838
 ## Detection Prevalence   0.2844   0.1935   0.1744   0.1639   0.1838
-## Balanced Accuracy      0.9999   0.9999   0.9996   0.9999   1.0000</code></pre>
+## Balanced Accuracy      1.0000   0.9999   0.9997   1.0000   1.0000</code></pre>
 <p><br> * Accuracy of the final prediction model at classifying individuals within the training set dataframe is greater than 99% <br> <br></p>
 </div>
 <div id="predict-outcomes-using-testing-dataframe" class="section level4">
